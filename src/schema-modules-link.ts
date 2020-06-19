@@ -86,12 +86,6 @@ function SchemaModulesManager({ map, schemaBuilder }: SchemaModuleLinkOptions) {
   }
 
   /**
-   * Stores the hash of previously built schema
-   */
-  let currentHash: string | null = null;
-  let memoizedSchema: GraphQLSchema | null;
-
-  /**
    * Loads all requested modules by their id + shared module
    */
   async function loadModules(ids: number[]) {
@@ -105,14 +99,7 @@ function SchemaModulesManager({ map, schemaBuilder }: SchemaModuleLinkOptions) {
    * Builds GraphQLSchema object based on a list of module ids
    * Does the memoization internally to avoid unnecessary computations
    */
-  async function buildSchema(ids: number[]) {
-    const hash = ids.slice().sort().join("-");
-
-    if (hash === currentHash) {
-      toast("Used memoized schema");
-      return memoizedSchema!;
-    }
-
+  async function _buildSchema(ids: number[]) {
     const modules = await loadModules(ids);
 
     // saves a list of used modules including those requested by operation
@@ -125,11 +112,18 @@ function SchemaModulesManager({ map, schemaBuilder }: SchemaModuleLinkOptions) {
       resolvers: modules.map((m) => m.resolvers || {}),
     });
 
-    currentHash = hash;
-    memoizedSchema = schema;
-
     return schema;
   }
+
+  function hash(list: number[]) {
+    return list.slice().sort().join("-");
+  }
+
+  function compare(currentHash: string, memoHash: string) {
+    return memoHash === currentHash;
+  }
+
+  const buildSchema = memo(_buildSchema, hash, compare);
 
   return {
     async execute({
@@ -173,4 +167,26 @@ function capitalizeFirst(str: OperationTypeNode): OperationType {
 
 function onlyUnique<T>(val: T, i: number, list: T[]) {
   return list.indexOf(val) === i;
+}
+
+function memo<A, R, H>(
+  fn: (input: A) => R,
+  hash: (input: A) => H,
+  compare: (current: H, previous: H) => boolean
+) {
+  let memoizedResult: R;
+  let memoizedInput: H;
+
+  return (input: A): R => {
+    const currentHash = hash(input);
+    if (compare(currentHash, memoizedInput)) {
+      toast("Used memoized schema");
+      return memoizedResult;
+    }
+
+    memoizedResult = fn(input);
+    memoizedInput = currentHash;
+
+    return memoizedResult;
+  };
 }
