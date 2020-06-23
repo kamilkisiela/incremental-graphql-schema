@@ -1,5 +1,5 @@
 import { execute, toPromise, ApolloLink, GraphQLRequest } from "apollo-link";
-import gql from "graphql-tag";
+import { parse } from "graphql";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import {
   createSchemaModulesLink,
@@ -39,13 +39,13 @@ test("load shared module + a used module", async () => {
     schemaBuilder: makeExecutableSchema,
   });
   const result = await executeLink(link, {
-    query: gql`
+    query: parse(/* GraphQL */ `
       {
         chats {
           id
         }
       }
-    `,
+    `),
   });
 
   expect(result.data!.chats).toBeDefined();
@@ -67,7 +67,7 @@ test("load shared module + multiple requested modules", async () => {
     schemaBuilder: makeExecutableSchema,
   });
   const result = await executeLink(link, {
-    query: gql`
+    query: parse(/* GraphQL */ `
       {
         chats {
           id
@@ -76,7 +76,7 @@ test("load shared module + multiple requested modules", async () => {
           id
         }
       }
-    `,
+    `),
   });
 
   expect(result.data!.chats).toBeDefined();
@@ -93,71 +93,71 @@ test("memoize the result of schema building over time", async () => {
     map: schemaModuleMap,
     schemaBuilder: buildSpy,
   });
-  
+
   await executeLink(link, {
-    query: gql`
+    query: parse(/* GraphQL */ `
       {
         chats {
           id
         }
       }
-    `,
+    `),
   });
 
   await executeLink(link, {
-    query: gql`
+    query: parse(/* GraphQL */ `
       {
         chats {
           id
         }
       }
-    `,
+    `),
   });
 
   expect(buildSpy).toBeCalledTimes(1);
 
   await executeLink(link, {
-    query: gql`
+    query: parse(/* GraphQL */ `
       {
         events {
           id
         }
       }
-    `,
+    `),
   });
 
   expect(buildSpy).toBeCalledTimes(2);
 
   await executeLink(link, {
-    query: gql`
+    query: parse(/* GraphQL */ `
       {
         chats {
           id
         }
       }
-    `,
+    `),
   });
 
   await executeLink(link, {
-    query: gql`
+    query: parse(/* GraphQL */ `
       {
         events {
           id
         }
       }
-    `,
+    `),
   });
 
   await executeLink(link, {
-    query: gql`
+    query: parse(/* GraphQL */ `
       {
         chats {
           id
           title
         }
       }
-    `,
+    `),
   });
-  
+
   expect(buildSpy).toBeCalledTimes(2);
 });

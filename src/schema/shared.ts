@@ -1,6 +1,6 @@
-import gql from "graphql-tag";
+import {parse} from "graphql";
 
-export const typeDefs = gql`
+export const typeDefs = parse(/* GraphQL */`
   type Query {
     _: String
   }
@@ -13,7 +13,7 @@ export const typeDefs = gql`
     id: ID!
     name: String!
   }
-`;
+`);
 
 const users = ["Foo", "Bar"];
 

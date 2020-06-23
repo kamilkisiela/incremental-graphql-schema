@@ -1,5 +1,5 @@
 import React from "react";
-import gql from "graphql-tag";
+import { parse } from "graphql";
 import { Query } from "react-apollo";
 
 export default function Chats() {
@@ -7,7 +7,7 @@ export default function Chats() {
     <div>
       <h2>Chats</h2>
       <Query
-        query={gql`
+        query={parse(/* GraphQL */ `
           query allChats {
             chats {
               id
@@ -18,7 +18,7 @@ export default function Chats() {
               }
             }
           }
-        `}
+        `)}
         fetchPolicy="network-only"
         children={({ loading, data }: any) => {
           if (loading) {

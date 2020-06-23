@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import {parse} from "graphql";
 
 const events = [
   { id: 0, name: "Shopping", description: "Gifts" },
@@ -6,7 +6,7 @@ const events = [
   { id: 2, name: "Party", description: "After months of Covid-19" },
 ];
 
-export const typeDefs = gql`
+export const typeDefs = parse(/* GraphQL */`
   extend type Query {
     events: [Event!]
   }
@@ -20,7 +20,7 @@ export const typeDefs = gql`
     name: String!
     description: String
   }
-`;
+`);
 
 export const resolvers = {
   Query: {

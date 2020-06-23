@@ -1,8 +1,8 @@
 import React from "react";
-import gql from "graphql-tag";
+import { parse } from "graphql";
 import { Query, Mutation } from "react-apollo";
 
-const EVENTS = gql`
+const EVENTS = parse(/* GraphQL */ `
   query allEvents {
     events {
       id
@@ -10,9 +10,9 @@ const EVENTS = gql`
       description
     }
   }
-`;
+`);
 
-const ADD_EVENT = gql`
+const ADD_EVENT = parse(/* GraphQL */ `
   mutation newEvent($name: String!, $description: String) {
     addEvent(name: $name, description: $description) {
       id
@@ -20,7 +20,7 @@ const ADD_EVENT = gql`
       description
     }
   }
-`;
+`);
 
 function NewEvent() {
   return (

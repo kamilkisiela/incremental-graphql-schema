@@ -1,6 +1,6 @@
-import gql from "graphql-tag";
+import {parse} from "graphql";
 
-export const typeDefs = gql`
+export const typeDefs = parse(/* GraphQL */`
   extend type Query {
     chats: [Chat!]
   }
@@ -10,7 +10,7 @@ export const typeDefs = gql`
     title: String!
     members: [User!]
   }
-`;
+`);
 
 export const resolvers = {
   Query: {
