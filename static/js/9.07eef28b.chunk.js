@@ -1,0 +1,2 @@
+(this.webpackJsonpapp=this.webpackJsonpapp||[]).push([[9],{139:function(e,t,n){"use strict";n.r(t),n.d(t,"typeDefs",(function(){return s})),n.d(t,"resolvers",(function(){return i}));var r=n(39),s=Object(r.a)("\n  extend type Query {\n    chats: [Chat!]\n  }\n\n  type Chat {\n    id: ID!\n    title: String!\n    members: [User!]\n  }\n"),i={Query:{chats:function(){return[{id:0,title:"Apollo",members:[0]},{id:1,title:"EngSys",members:[0]},{id:2,title:"General",members:[0,1]}]}}}}}]);
+//# sourceMappingURL=9.07eef28b.chunk.js.map

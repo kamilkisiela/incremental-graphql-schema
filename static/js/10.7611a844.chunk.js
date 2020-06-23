@@ -1,0 +1,2 @@
+(this.webpackJsonpapp=this.webpackJsonpapp||[]).push([[10],{140:function(n,t,e){"use strict";e.r(t),e.d(t,"typeDefs",(function(){return i})),e.d(t,"resolvers",(function(){return u}));var r=e(39),i=Object(r.a)("\n  type Query {\n    _: String\n  }\n\n  type Mutation {\n    _: String\n  }\n\n  type User {\n    id: ID!\n    name: String!\n  }\n"),p=["Foo","Bar"],u={User:{id:function(n){return n},name:function(n){return p[n]}}}}}]);
+//# sourceMappingURL=10.7611a844.chunk.js.map

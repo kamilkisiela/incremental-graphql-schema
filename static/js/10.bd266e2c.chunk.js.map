@@ -1,1 +1,0 @@
-{"version":3,"sources":["chunks/home.tsx"],"names":["Home"],"mappings":"6FAAA,mEAEe,SAASA,IACtB,OAAO,6BACL,oCACA","file":"static/js/10.bd266e2c.chunk.js","sourcesContent":["import React from 'react';\n\nexport default function Home() {\n  return <div>\n    <h2>Home</h2>\n    <p>No GraphQL</p>\n  </div>;\n}"],"sourceRoot":""}
